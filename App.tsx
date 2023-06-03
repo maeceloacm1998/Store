@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import 'react-native-gesture-handler';
+
 
 import { FirebaseClient } from './src/service/external/firebase/client/firebaseClient';
 import Navigation from './src/router';
+import colors from './src/theme/colors';
 
 interface Props {
   nome: string
@@ -25,7 +28,7 @@ export default function App() {
       <StatusBar
         translucent
         barStyle="light-content"
-        backgroundColor="#FFFFFF"
+        backgroundColor={colors.color.primary}
       />
       <Navigation />
     </View>
