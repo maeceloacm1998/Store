@@ -1,11 +1,12 @@
 import { ParamListBase, RouteProp } from '@react-navigation/native';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export interface StackParamsList extends ParamListBase {
-  Home: any;
+  Destaques: any,
+  Cart: any
 }
 
-export type ScreenNavigationProp =  DrawerNavigationProp<StackParamsList>;
+export type ScreenNavigationProp = NativeStackNavigationProp<StackParamsList>;
 export type ParamsNavigationProp = ParamListBase;
 export interface ScreenProps {
   navigation: ScreenNavigationProp;

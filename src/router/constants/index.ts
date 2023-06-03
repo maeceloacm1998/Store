@@ -1,3 +1,5 @@
 export const screensName = {
-    Home: 'Home',
+    Home: 'Destaques',
+    Cart: "Cart",
+    StackHome: "Home"
 };
