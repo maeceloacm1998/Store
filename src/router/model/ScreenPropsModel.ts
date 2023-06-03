@@ -1,5 +1,5 @@
 import { ParamListBase, RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export interface StackParamsList extends ParamListBase {
   InitialRouteUser: any;
@@ -16,7 +16,7 @@ export interface StackParamsList extends ParamListBase {
   SchedulePreview: any;
 }
 
-export type ScreenNavigationProp = NativeStackNavigationProp<StackParamsList>;
+export type ScreenNavigationProp =  DrawerNavigationProp<StackParamsList>;
 export type ParamsNavigationProp = ParamListBase;
 export interface ScreenProps {
   navigation: ScreenNavigationProp;
