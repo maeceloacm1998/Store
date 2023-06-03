@@ -1,13 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+
 import Tollbar from "../../components/tollbar";
+import ProductCard from "../../components/productCard";
+
 import { ScreenProps } from "../../router/model/ScreenPropsModel";
 
 function Home({ navigation }: ScreenProps) {
     return (
-        <View>
+        <View style={styles.container}>
             <Tollbar navigation={navigation} />
-            <Text>Entrou na HOME</Text>
+            <ProductCard />
         </View>
     )
 }
