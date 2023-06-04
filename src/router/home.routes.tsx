@@ -2,6 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Cart from '../screen/cart';
 import Home from '../screen/home';
+import Details from '../screen/details';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,13 @@ function HomeRoutes() {
         <Stack.Screen
           name="Cart"
           component={Cart}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="Details"
+          component={Details}
           options={{
             headerShown: false
           }}

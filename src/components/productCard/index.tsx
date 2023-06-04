@@ -2,27 +2,24 @@ import React from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
 import { ProductCardProps } from "./models/ProductCardProps";
+import { ProductCardModel } from "./models/ProductCardModel";
+
 import colors from "../../theme/colors";
 
 const checkProps = (props: ProductCardProps) => ({
-    data: props.data ? props.data : {},
+    data: props.data ? props.data : {} as ProductCardModel,
     clickProductListener: props.clickProductListener ? props.clickProductListener : () => { }
 });
 
 function ProductCard(props: ProductCardProps) {
-    const { clickProductListener } = checkProps(props)
-    const data = {
-        productName: "Celular Sansung S10 - Preto",
-        value: 10,
-        image: "https://firebasestorage.googleapis.com/v0/b/lovephotos-ee4c5.appspot.com/o/photo%2F09fa8df4-3307-354f-a7d7-c96918ada245?alt=media&token=9b02f469-a9a2-41b1-b9d4-a84e36aea58f&_gl=1*1m0v9bu*_ga*NTYyMTk5NjEzLjE2ODU2ODI4MzM.*_ga_CW55HF8NVT*MTY4NTc3NDQ4NC4yLjEuMTY4NTc3NDUxOS4wLjAuMA.."
-    }
+    const { clickProductListener, data } = checkProps(props)
 
     function currencyFormat(num: number) {
         return 'R$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     return (
-        <Pressable onPress={clickProductListener} style={styles.background}>
+        <Pressable onPress={()=> clickProductListener(data)} style={styles.background}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: data.image }} style={styles.image} />
@@ -38,11 +35,10 @@ function ProductCard(props: ProductCardProps) {
 
 const styles = StyleSheet.create({
     background: {
-        padding: 10
+        padding: 5
     },
     container: {
         width: "100%",
-        height: 100,
         flexDirection: "row",
         backgroundColor: colors.color.white,
         borderRadius: 15,
@@ -50,7 +46,6 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: "30%",
-        height: "100%",
         alignItems: "center",
         justifyContent: "center",
         borderTopStartRadius: 15,
