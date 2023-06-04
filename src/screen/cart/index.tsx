@@ -1,6 +1,8 @@
 import React, {useState} from "react"
 import { View, StyleSheet, FlatList, Text } from "react-native";
 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import ProductCart from "./components/productCart";
 import Tollbar from "../../components/tollbar";
 import { ScreenProps } from "../../router/model/ScreenPropsModel";
@@ -57,6 +59,16 @@ function Cart({ navigation }: ScreenProps) {
           });
     }
 
+    if(products.length === 0) {
+        return (
+            <View style={styles.containerEmptyScreen}>
+                <MaterialCommunityIcons color={colors.color.primary} size={120} name="cart-remove" />
+                <Text style={styles.title}>Carrinho está vazio.</Text>
+                <Button title="Ver produtos" clickButtonListener={() => navigation.goBack()} loading={false} />
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <Tollbar navigation={navigation} isNavigationHeader={true} clickGoBackListener={clickGoBack} />
@@ -108,6 +120,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
         color: colors.color.black
+    },
+    containerEmptyScreen: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 40
     }
 })
 

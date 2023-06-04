@@ -3,7 +3,6 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { ProductCartProps } from "./model/ProductCartProps";
 import colors from "../../../../theme/colors";
-import { RectButton } from "react-native-gesture-handler";
 import { CartModel } from "../../../../context/models/CartModel";
 
 const checkProps = (props: ProductCartProps) => ({
