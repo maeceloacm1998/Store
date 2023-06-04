@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import { View, StyleSheet, FlatList, Text } from "react-native";
 
 import ProductCart from "./components/productCart";
@@ -8,10 +8,15 @@ import { useCartContext } from "../../context/cart";
 import { CartModel } from "../../context/models/CartModel";
 import colors from "../../theme/colors";
 import Button from "../../components/button";
+import { OrderModel } from "./model/OrderMode";
+import { FirebaseClient } from "../../service/external/firebase/client";
 
 function Cart({ navigation }: ScreenProps) {
+    const client = new FirebaseClient()
     const clickGoBack = () => navigation.goBack()
-    const { products, totalProducts, totalValue, addQuantity, removeQuantity } = useCartContext()
+    const { products, totalProducts, totalValue, addQuantity, removeQuantity, removeProduct, clearCart } = useCartContext()
+
+    const [loading, setLoading] = useState<boolean>(false)
 
     function HandleProductCart(data: CartModel) {
         return (
@@ -31,6 +36,27 @@ function Cart({ navigation }: ScreenProps) {
         removeQuantity(id)
     }
 
+    async function finishOrder() {
+        setLoading(true)
+        const order: OrderModel = {
+            id: "1",
+            productList: products,
+            quantitySelected: totalProducts(),
+            totalValue: totalValue()
+        }
+        client.setDocument("orders", order)
+        clearCart()
+        clearStack()
+        setLoading(false)
+    }
+
+    function clearStack() {
+        navigation.reset({
+            index: 0,
+            routes: [{name: 'Home'}],
+          });
+    }
+
     return (
         <View style={styles.container}>
             <Tollbar navigation={navigation} isNavigationHeader={true} clickGoBackListener={clickGoBack} />
@@ -45,7 +71,7 @@ function Cart({ navigation }: ScreenProps) {
             <View style={styles.containerInformation}>
                 <Text style={styles.productQuantity}>{totalProducts()} produtos</Text>
                 <Text style={styles.valueTitle}>Total: <Text style={styles.value}>{currencyFormat(totalValue())}</Text></Text>
-                <Button title="Finalizar pedido" clickButtonListener={() => { }} loading={false} />
+                <Button title="Finalizar pedido" clickButtonListener={finishOrder} loading={loading} />
             </View>
         </View>
     )

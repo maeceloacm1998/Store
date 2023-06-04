@@ -1,4 +1,4 @@
-import { DocumentData, collection, getDocs, query, doc, getDoc } from "firebase/firestore";
+import { DocumentData, collection, getDocs, query, doc, getDoc, addDoc, updateDoc } from "firebase/firestore";
 import database from "../config/firebase";
 
 export class FirebaseClient {
@@ -10,8 +10,8 @@ export class FirebaseClient {
             const querySnapshot = await getDocs(docRef);
 
             querySnapshot.forEach((doc) => response.push(doc.data()))
-        } catch(error) {
-            if(error instanceof Error) {
+        } catch (error) {
+            if (error instanceof Error) {
                 throw new Error(error.message);
             }
         }
@@ -24,5 +24,11 @@ export class FirebaseClient {
         const docSnap = await getDoc(docRef);
 
         return docSnap.data() as S
+    }
+
+    async setDocument(docName: string, data: any) {
+        const docRef = await addDoc(collection(database, docName), {});
+        const doc1 = doc(database, docName, docRef.id.toString())
+        await updateDoc(doc1, {...data, id: docRef.id})
     }
 }
