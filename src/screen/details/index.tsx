@@ -19,9 +19,9 @@ import { screensName } from "../../router/constants";
 function Details({ navigation, route }: ScreenProps) {
     const params = route.params as ProductCardModel
     const clickGoBack = () => navigation.goBack()
-    const {addProduct} = useCartContext()
+    const { addProduct } = useCartContext()
 
-    const [productCart, setProductCart] = useState<CartModel>({value: 1} as CartModel);
+    const [productCart, setProductCart] = useState<CartModel>({ value: 1 } as CartModel);
     const [loadingScreen, setLoadingScreen] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -34,6 +34,7 @@ function Details({ navigation, route }: ScreenProps) {
         const productCart: CartModel = {
             ...params,
             quantitySelected: 1,
+            totalValue: params.value
         }
         setProductCart(productCart)
         setLoadingScreen(false)
@@ -44,18 +45,22 @@ function Details({ navigation, route }: ScreenProps) {
     }
 
     function clickAddQuantityListener() {
-        const newProduct: CartModel = {
-            ...productCart,
-            quantitySelected: productCart.quantitySelected + 1
+        if (productCart.quantitySelected < productCart.quantity) {
+            const newProduct: CartModel = {
+                ...productCart,
+                quantitySelected: productCart.quantitySelected + 1,
+                totalValue: productCart.value * (productCart.quantitySelected + 1)
+            }
+            setProductCart(newProduct)
         }
-        setProductCart(newProduct)
     }
 
     function clickRemoveQuantityListener() {
-        if (productCart.quantity >= 1) {
+        if (productCart.quantitySelected > 1) {
             const newProduct: CartModel = {
                 ...productCart,
-                quantitySelected: productCart.quantitySelected - 1
+                quantitySelected: productCart.quantitySelected - 1,
+                totalValue: productCart.value * (productCart.quantitySelected - 1)
             }
             setProductCart(newProduct)
         }
@@ -77,7 +82,7 @@ function Details({ navigation, route }: ScreenProps) {
             <Tollbar navigation={navigation} isNavigationHeader={true} clickGoBackListener={clickGoBack} />
             {
                 loadingScreen ? (
-                    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <ActivityIndicator size={25} color={colors.color.primary} />
                     </View>
                 ) : (

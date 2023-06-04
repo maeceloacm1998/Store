@@ -5,5 +5,7 @@ export interface CartContextDataModel {
     addProduct: (product: CartModel) => void,
     removeProduct: (id: string) => void,
     addQuantity: (id: string) => void,
-    removeQuantity: (id: string) => void
+    removeQuantity: (id: string) => void,
+    totalProducts: () => number,
+    totalValue: () => number
 }

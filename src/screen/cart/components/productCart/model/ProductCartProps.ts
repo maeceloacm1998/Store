@@ -1,8 +1,7 @@
-import { ProductCartModel } from "./ProductCartModel";
+import { CartModel } from "../../../../../context/models/CartModel";
 
 export interface ProductCartProps {
-    data: ProductCartModel
-    clickProductListener?: () => void,
-    clickAddQuantityListener?: () => void,
-    clickRemoveQuantityListener?: () => void,
+    data: CartModel
+    clickAddQuantityListener?: (id: string) => void,
+    clickRemoveQuantityListener?: (id: string) => void,
 }

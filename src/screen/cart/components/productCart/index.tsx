@@ -4,28 +4,23 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { ProductCartProps } from "./model/ProductCartProps";
 import colors from "../../../../theme/colors";
 import { RectButton } from "react-native-gesture-handler";
+import { CartModel } from "../../../../context/models/CartModel";
 
 const checkProps = (props: ProductCartProps) => ({
-    data: props.data ? props.data : {},
-    clickProductListener: props.clickProductListener ? props.clickProductListener : () => { },
+    data: props.data ? props.data : {value: 1} as CartModel,
     clickAddQuantityListener: props.clickAddQuantityListener ? props.clickAddQuantityListener : () => { },
     clickRemoveQuantityListener: props.clickRemoveQuantityListener ? props.clickRemoveQuantityListener : () => { },
 });
 
 function ProductCart(props: ProductCartProps) {
-    const { clickProductListener, clickAddQuantityListener, clickRemoveQuantityListener } = checkProps(props)
-    const data = {
-        productName: "Celular Sansung S10 - Preto",
-        value: 10,
-        image: "https://firebasestorage.googleapis.com/v0/b/lovephotos-ee4c5.appspot.com/o/photo%2F09fa8df4-3307-354f-a7d7-c96918ada245?alt=media&token=9b02f469-a9a2-41b1-b9d4-a84e36aea58f&_gl=1*1m0v9bu*_ga*NTYyMTk5NjEzLjE2ODU2ODI4MzM.*_ga_CW55HF8NVT*MTY4NTc3NDQ4NC4yLjEuMTY4NTc3NDUxOS4wLjAuMA.."
-    }
-
+    const { clickAddQuantityListener, clickRemoveQuantityListener, data } = checkProps(props)
+    
     function currencyFormat(num: number) {
         return 'R$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     return (
-        <Pressable onPress={clickProductListener} style={styles.background}>
+        <Pressable  style={styles.background}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: data.image }} style={styles.image} />
@@ -33,19 +28,19 @@ function ProductCart(props: ProductCartProps) {
                 <View style={styles.informationsContainer}>
                     <View>
                         <Text style={styles.productName}>{data.productName}</Text>
-                        <Text style={styles.priceName}>{currencyFormat(data.value)}</Text>
+                        <Text style={styles.priceName}>{currencyFormat(data.totalValue!!)}</Text>
                     </View>
 
                     <View style={styles.quantityContainer}>
-                        <RectButton onPress={clickAddQuantityListener}>
+                        <Pressable onPress={() => clickAddQuantityListener(data.id)}>
                             <MaterialIcons color={colors.color.primary} size={20} name="add" />
-                        </RectButton>
+                        </Pressable>
 
-                        <Text style={styles.quantity}>2</Text>
+                        <Text style={styles.quantity}>{data.quantitySelected}</Text>
 
-                        <RectButton onPress={clickRemoveQuantityListener}>
+                        <Pressable onPress={() => clickRemoveQuantityListener(data.id)}>
                             <MaterialCommunityIcons color={colors.color.primary} size={20} name="minus" />
-                        </RectButton>
+                        </Pressable>
                     </View>
                 </View>
             </View>
@@ -55,7 +50,8 @@ function ProductCart(props: ProductCartProps) {
 
 const styles = StyleSheet.create({
     background: {
-        padding: 10
+        paddingHorizontal: 10,
+        paddingVertical: 5
     },
     container: {
         width: "100%",
@@ -92,8 +88,7 @@ const styles = StyleSheet.create({
         color: colors.color.text_color
     },
     quantityContainer: {
-        width: 70,
-        height: 30,
+        width: 80,
         paddingStart: 6,
         alignItems: "center",
         flexDirection: "row",
@@ -104,9 +99,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.color.background_card_color
     },
     quantity: {
+        width: 26,
         fontSize: 14,
         color: colors.color.black,
-        alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 5
     },
