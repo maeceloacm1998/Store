@@ -55,7 +55,7 @@ function Cart({ navigation }: ScreenProps) {
     function clearStack() {
         navigation.reset({
             index: 0,
-            routes: [{name: 'Home'}],
+            routes: [{name: 'Inicio'}],
           });
     }
 
