@@ -5,5 +5,6 @@ export interface OrderModel {
     id: string,
     productList: CartModel[],
     quantitySelected: number,
-    totalValue?: number
+    totalValue?: number,
+    finish: boolean
 }

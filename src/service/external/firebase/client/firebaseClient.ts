@@ -1,4 +1,4 @@
-import { DocumentData, collection, getDocs, query, doc, getDoc, addDoc, updateDoc } from "firebase/firestore";
+import { DocumentData, collection, getDocs, query, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import database from "../config/firebase";
 
 export class FirebaseClient {
@@ -30,5 +30,14 @@ export class FirebaseClient {
         const docRef = await addDoc(collection(database, docName), {});
         const doc1 = doc(database, docName, docRef.id.toString())
         await updateDoc(doc1, {...data, id: docRef.id})
+    }
+
+    async putDocument(docName: string, collectionName: string, data: any) {
+        const docRef = doc(database, docName, collectionName);
+        await updateDoc(docRef, data)
+    }
+
+    async deleteDocument(docName: string, collectionName: string) {
+        await deleteDoc(doc(database, docName, collectionName));    
     }
 }

@@ -28,7 +28,7 @@ function MyRequests({ navigation }: ScreenProps) {
 
     function HandleOrderCard(data: OrderModel) {
         return (
-            <OrderCard data={data} />
+            <OrderCard data={data} updateList={fetchMyRequests} />
         )
     }
 
